@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toss_app_div/common/common.dart';
+import 'package:toss_app_div/screen/main/tab/home/notification/s_notification.dart';
 
 import '../../../../common/widget/w_empty_expanded.dart';
 
@@ -34,24 +35,30 @@ class _TtossAppBarState extends State<TtossAppBar> {
             height: 30,
           ),
           width10,
-          Stack(
-            children: [
-              Image.asset(
-                "$basePath/icon/notification.png",
-                height: 30,
-              ),
-             if(_showRedDot) Positioned.fill(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    width: 6,
-                    height: 6,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.red),
+          Tap(
+            onTap: (){
+              //알림 화면
+              Nav.push(NotificationScreen());
+            },
+            child: Stack(
+              children: [
+                Image.asset(
+                  "$basePath/icon/notification.png",
+                  height: 30,
+                ),
+               if(_showRedDot) Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.red),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           width10
         ],

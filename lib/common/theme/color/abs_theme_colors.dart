@@ -22,6 +22,8 @@ abstract class AbstractThemeColors {
 
   Color get textBadgeText => Colors.white;
 
+  Color get whiteText => Colors.white;
+
   Color get badgeBorder => Colors.transparent;
 
   Color get divider => const Color.fromARGB(255, 228, 228, 228);
@@ -42,7 +44,13 @@ abstract class AbstractThemeColors {
 
   get appBarBackGround => Color.fromARGB(255, 16, 16, 18);
 
+  get dartBackGround => Color.fromARGB(255, 16, 16, 18);
+
   get buttonBackground => Color.fromARGB(255, 48, 48,48);
 
   get roundedButtonBackground => Color.fromARGB(255, 24, 24, 24);
+
+  Color get unreadColor => Color.fromARGB(255, 48, 48, 48);
+
+  Color get lessImportantText => AppColors.grey;
 }

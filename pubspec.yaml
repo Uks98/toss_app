@@ -80,6 +80,8 @@ dependencies:
 
   #change package name
   change_app_package_name: ^1.1.0
+  #time change
+  timeago: ^3.5.0
 
 dev_dependencies:
   flutter_test:
@@ -119,6 +121,7 @@ flutter:
     - assets/
     - assets/splash/
     - assets/image/bank/
+    - assets/image/notification/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
