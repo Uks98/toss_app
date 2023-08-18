@@ -14,7 +14,7 @@ class RoundedContainer extends StatelessWidget {
       horizontal: 20,
       vertical: 15,
     ),
-      this.radius = 20.0,
+    this.radius = 20.0,
     this.backGroundColor,
   }) : super(key: key);
 

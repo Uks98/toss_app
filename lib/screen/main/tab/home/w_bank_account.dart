@@ -29,7 +29,7 @@ class BankAccountWidget extends StatelessWidget {
         RoundedContainer(
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
           radius: 10,
-          backGroundColor: context.appColors.roundedButtonBackground,child: "송금".text.white.bold.make(),)
+          backGroundColor: context.appColors.roundedLayoutBackground,child: "송금".text.white.bold.make(),)
 
       ],
     );

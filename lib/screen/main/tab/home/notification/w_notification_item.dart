@@ -33,7 +33,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         color: widget.notification.isRead
-            ? context.appColors.dartBackGround
+            ? context.backgroundColor
             : context.appColors.unreadColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                 ),
                 widget.notification.type.name.text
                     .size(12)
-                    .color(context.appColors.lessImportantText)
+                    .color(context.appColors.lessImportant)
 
                     .make(),
                 emptyExpanded,
@@ -56,14 +56,13 @@ class _NotificationItemWidgetState extends State<NotificationItemWidget> {
                         locale: context.locale.languageCode)
                     .text
                     .size(13)
-                    .color(context.appColors.lessImportantText)
-                    .color(context.appColors.whiteText)
+                    .color(context.appColors.lessImportant)
+
                     .make(),
                 width10,
               ],
             ),
             widget.notification.description.text
-                .color(context.appColors.whiteText)
                 .make()
                 .pOnly(left: leftPadding + iconWidth)
           ],
