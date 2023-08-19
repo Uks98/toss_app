@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toss_app_div/common/dart/extension/num_extention.dart';
+import 'package:toss_app_div/screen/main/tab/stock/search/s_search_stock.dart';
 import 'package:toss_app_div/screen/main/tab/stock/tabs/f_my_Stock.dart';
 import 'package:toss_app_div/screen/main/tab/stock/tabs/f_todays_discovery.dart';
 
@@ -29,7 +30,7 @@ class _StockFragmentState extends State<StockFragment> with SingleTickerProvider
             ImageButton(
               imagePath: '$basePath/icon/stock_search.png',
               onTap: () {
-               // Nav.push(const StockSearchScreen());
+               Nav.push( SearchStockScreen());
               },
             ),
             ImageButton(
