@@ -2,6 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../theme/custom_theme.dart';
+import 'item/preference_item.dart';
+
+export 'package:get/get_rx/get_rx.dart';
+export 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+export './item/nullable_preference_item.dart';
+export './item/preference_item.dart';
+export './item/rx_preference_item.dart';
+export './item/rxn_preference_item.dart';
 
 class AppPreferences {
   static const String prefix = 'AppPreference.';
@@ -17,25 +25,59 @@ class AppPreferences {
     return;
   }
 
+  static bool checkIsNullable<T>() => null is T;
+
   static Future<bool> setValue<T>(PreferenceItem<T> item, T? value) async {
     final String key = getPrefKey(item);
-    switch (T) {
-      case int:
-        return _prefs.setInt(key, value as int);
-      case String:
-        return _prefs.setString(key, value as String);
-      case double:
-        return _prefs.setDouble(key, value as double);
-      case bool:
-        return _prefs.setBool(key, value as bool);
-      case const (List<String>):
-        return _prefs.setStringList(key, value as List<String>);
-      default:
-        if (value is Enum) {
-          return _prefs.setString(key, describeEnum(value));
-        } else {
-          throw Exception('$T 타입에 대한 저장 transform 함수를 추가 해주세요.');
-        }
+    final isNullable = checkIsNullable<T>();
+
+    if (isNullable && value == null) {
+      //null을 세팅한다는 것은 값을 지운다는 의미로 해석. 필요에 따라 변경해서 쓰시면 되요.
+      return _prefs.remove(item.key);
+    }
+
+    if (isNullable) {
+      switch (T.toString()) {
+        case "int?":
+          return _prefs.setInt(key, value as int);
+        case "String?":
+          return _prefs.setString(key, value as String);
+        case "double?":
+          return _prefs.setDouble(key, value as double);
+        case "bool?":
+          return _prefs.setBool(key, value as bool);
+        case "List<String>?":
+          return _prefs.setStringList(key, value as List<String>);
+        case "DateTime?":
+          return _prefs.setString(key, (value as DateTime).toIso8601String());
+        default:
+          if (value is Enum) {
+            return _prefs.setString(key, describeEnum(value));
+          } else {
+            throw Exception('$T 타입에 대한 저장 transform 함수를 추가 해주세요.');
+          }
+      }
+    } else {
+      switch (T) {
+        case int:
+          return _prefs.setInt(key, value as int);
+        case String:
+          return _prefs.setString(key, value as String);
+        case double:
+          return _prefs.setDouble(key, value as double);
+        case bool:
+          return _prefs.setBool(key, value as bool);
+        case const (List<String>):
+          return _prefs.setStringList(key, value as List<String>);
+        case DateTime:
+          return _prefs.setString(key, (value as DateTime).toIso8601String());
+        default:
+          if (value is Enum) {
+            return _prefs.setString(key, describeEnum(value));
+          } else {
+            throw Exception('$T 타입에 대한 저장 transform 함수를 추가 해주세요.');
+          }
+      }
     }
   }
 
@@ -44,7 +86,7 @@ class AppPreferences {
     return _prefs.remove(key);
   }
 
-  static T? getValue<T>(PreferenceItem<T> item) {
+  static T getValue<T>(PreferenceItem<T> item) {
     final String key = getPrefKey(item);
     switch (T) {
       case int:
@@ -67,30 +109,25 @@ class AppPreferences {
       return null;
     }
 
-    switch (t) {
-      case CustomTheme:
-        return CustomTheme.values.asNameMap()[value] as T?;
-      default:
-        throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
+    bool isNullableType = checkIsNullable<T>();
+    if (isNullableType) {
+      switch (t.toString()) {
+        case "CustomTheme?":
+          return CustomTheme.values.asNameMap()[value] as T?;
+        case "DateTime?":
+          return DateTime.parse(value) as T?;
+        default:
+          throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
+      }
+    } else {
+      switch (t) {
+        case CustomTheme:
+          return CustomTheme.values.asNameMap()[value] as T?;
+        case DateTime:
+          return DateTime.parse(value) as T?;
+        default:
+          throw Exception('$t 타입에 대한 transform 함수를 추가 해주세요.');
+      }
     }
-  }
-}
-
-class PreferenceItem<T> {
-  final T? defaultValue;
-  final String key;
-
-  PreferenceItem(this.key, [this.defaultValue]);
-
-  void call(T? value) {
-    AppPreferences.setValue<T>(this, value);
-  }
-
-  void set(T? value) {
-    AppPreferences.setValue<T>(this, value);
-  }
-
-  T? get() {
-    return AppPreferences.getValue<T>(this);
   }
 }
